@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\helpers\HelperFunctions;
 use Yii;
 
 /**
@@ -19,6 +20,10 @@ use Yii;
  */
 class Users extends \yii\db\ActiveRecord
 {
+
+    public $photo_document_file;
+
+
     /**
      * {@inheritdoc}
      */
@@ -60,5 +65,34 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
-    
+
+    public static function create($firstName, $lastName, $email, $phone, $photoDocumentFile){
+        
+        $user = new Users();
+        $user->first_name = $firstName;
+        $user->last_name = $lastName;
+        $user->email_address = $email;
+        $user->phone = $phone;
+
+        if ($photoDocumentFile) {
+            $uploadsDir = Yii::getAlias('@app/web/uploads');
+
+            $filePath = $uploadsDir . '/' . uniqid() . '.' . $photoDocumentFile->extension;
+            if ($photoDocumentFile->saveAs($filePath)) {
+                $user->photo_document = 'uploads/' . basename($filePath);
+            } else {
+                return 'Failed to save uploaded file.';
+            }
+        }
+        $user->created_at = HelperFunctions::getDate();
+        $user->updated_at = HelperFunctions::getDate();
+        $user->deleted = 0;
+        if ($user->save()){
+            return 'User created!';
+        }else {
+            Yii::error('User not saved. Errors: ' . json_encode($user->getErrors()));
+            return 'Validation failed: ' . implode(', ', array_column($user->getErrors(), 0));
+        }
+    }
+
 }
