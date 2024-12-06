@@ -8,19 +8,15 @@ use yii\widgets\ActiveForm;
     <div id="formContainer">
         <div id="formTitle">Enter the patient's information</div>
         <div class="dataRow">
-            <label for="name">Name:</label>
             <?= $form->field($model, 'first_name')->textInput(['id' => 'first_name']) ?>
         </div>
         <div class="dataRow">
-            <label for="lastName">Last Name:</label>
             <?= $form->field($model, 'last_name')->textInput(['id' => 'last_name']) ?>
         </div>
         <div class="dataRow">
-            <label for="email">Email:</label>
             <?= $form->field($model, 'email_address')->textInput(['id' => 'email_address']) ?>
         </div>
         <div class="dataRow">
-            <label for="phone">Phone:</label>
             <?= $form->field($model, 'phone')->textInput(['id' => 'phone']) ?>
         </div>
         <div class="dataRow">
