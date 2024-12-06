@@ -8,6 +8,7 @@ use app\models\Users;
 use Exception;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
+use app\jobs\SendEmailJob;
 
 
 class UsersController extends Controller{
@@ -38,7 +39,13 @@ class UsersController extends Controller{
                 );
 
                 if ($result === 'User created!') {
-                    Yii::$app->session->setFlash('success', $result);
+
+                    Yii::$app->queue->push(new SendEmailJob([
+                        'to' => $model->email_address,
+                        'subject' => 'Patient registration',
+                        'body' => 'Patient: ' . $model->first_name . ' ' . $model->last_name . ' has been registered.' ,
+                    ]));
+                    Yii::$app->session->setFlash('success', 'Patient successfully registered.');
                     return $this->redirect(['users/view-register']);
                 } else {
                     Yii::$app->session->setFlash('error', $result ?: 'An error occurred while creating the user.');
