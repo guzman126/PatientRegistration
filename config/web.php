@@ -26,12 +26,6 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
-        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -42,14 +36,27 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
+            'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+        'mailer' => [
+            'class' => 'yii\symfonymailer\Mailer',
+            'viewPath' => '@app/mail',
+            'transport' => [
+                'dsn' => 'smtp://5969c7a3b32386:720c649b14d034@sandbox.smtp.mailtrap.io:2525',
+            ],
+        ],
+        'queue' => [
+            'class' => \yii\queue\db\Queue::class,
+            'db' => 'db',
+            'tableName' => 'queue',
+            'channel' => 'default',
+            'mutex' => \yii\mutex\MysqlMutex::class,
+        ],
     ],
     'params' => $params,
 ];
