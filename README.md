@@ -4,6 +4,11 @@ LightIt challenge para registro de pacientes, desarrollado en Php con el framewo
 
 El sitio esta es accedido desde http://localhost:8000/
 
+Vista de registro desde front localhost:8000/users/view-register
+
+Accion de registro localhost:8000/users/add
+
+
 PhpMyAdmin corriendo en http://localhost:8080/
 
 Para configurar MailTrap, si es que se quiere usar otro usuario se debe ir a los archivos: web.php y console.php. 
